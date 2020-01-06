@@ -50,6 +50,39 @@ On client side:
     5. client configuration set up for certificates
 
 
+One way ssl:
+Client authenticates server with their certificates, if their certificates are singed by CA(certification
+authority). Client authenticates server against its truststore, that contains the certificate imported from the server
+before they actually start interaction with eachother.
+Server will responds to any client which is requesting data and provide its certificate to client for validation.
+
+Two way ssl:
+client and server both authenticates each other by exchanging their certificate. Server will authenticate
+client as well,
+if a client is valid one. It will not respond to any client which is requesting for the data.
+Here client also send the certificate to server, that server validates against it server truststore.
+
+
+Demo project I have created, client access the server by passing it's own certificate to server to get authenticated.
+Samething we can do from the browser. But we have to add client keystore first to chrome browser, so browser sends
+the certificate to server to get authenticated.
+Chrome browser can not import .jks entension of keystore. We need to convert keystore to pkcs format .p12 that is industry standard.
+
+C:\Users\ravi123\IdeaProjects\springClientTwoWaySSL>keytool -importkeystore -srckeystore raviClientkeystore.jks -destkeystore clientkeystoreForBrowser.p12 -deststoretype pkcs12 -destkeyp
+ass privateKeyPwdForBrowser
+Importing keystore raviClientkeystore.jks to clientkeystoreForBrowser.p12...
+Enter destination keystore password: keystorePwdForBrowser
+Re-enter new password: keystorePwdForBrowser
+Warning:  Different store and key passwords not supported for PKCS12 KeyStores. Ignoring user-specified -destkeypass value.
+Enter source keystore password: raviClientKeyStorePwd
+Enter key password for <raviclientprivatekey> : raviClientPrivateKeyPwd
+Entry for alias raviclientprivatekey successfully imported.
+Import command completed:  1 entries successfully imported, 0 entries failed or cancelled
+
+clientkeystoreForBrowser.p12 is created under C:\Users\ravi123\IdeaProjects\springClientTwoWaySSL.
+Now we need to import this in chrome. I have created a word doc to show screenshots.
+
+
 
 
 
