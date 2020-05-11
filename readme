@@ -51,17 +51,39 @@ On client side:
 
 
 One way ssl:
-Client authenticates server with their certificates, if their certificates are singed by CA(certification
-authority). Client authenticates server against its truststore, that contains the certificate imported from the server
-before they actually start interaction with eachother.
-Server will responds to any client which is requesting data and provide its certificate to client for validation.
+===============
+Client(browser) validates the authenticity of server by the certificate provided by the server that contains the information of the company which has server(website)
+ belongs to and about the signed authority CA(certification authority) which has validated the company information and signed the certificate.
+
+Browser client usually contains the information about all available signed authority CA(certification authority) in their truststore.
+for chrome - chrome://settings/?search=certificates
+Whenever we try to access few websites for example "www.onlinesbi.com", we make a request to website for their logon page. Website before serving the logon page, it sends the
+certificate of the server where website is hosted. Browser validates that server certificates by checking certificate authority details and matches this against its own
+truststore. If it finds Certification is signed by valid signing authority and not expired, it starts interacting with website server.
+
+Apart from browser client, JAVA has bundled a truststore called "cacerts" and it resides in the $JAVA_HOME/jre/lib/security directory.
+Run below command :
+$ keytool -list -keystore cacerts
+password - changeit
+Certificate fingerprint (SHA1): E6:21:F3:35:43:79:05:9A:4B:68:30:9D:8A:2F:74:22:15:87:EC:79
+digicertglobalrootg3 [jdk], Aug 25, 2016, trustedCertEntry,
+Certificate fingerprint (SHA1): 7E:04:DE:89:6A:3E:66:6D:00:E6:87:D3:3F:FA:D9:3B:E8:3D:34:9E
+deutschetelekomrootca2 [jdk], Aug 25, 2016, trustedCertEntry,
+Certificate fingerprint (SHA1): 85:A4:08:C0:9C:19:3E:5D:51:58:7D:CD:D6:13:30:FD:8C:DE:37:BF
+entrustrootcaec1 [jdk], Aug 25, 2016, trustedCertEntry,
+Certificate fingerprint (SHA1): 20:D8:06:40:DF:9B:25:F5:12:25:3A:11:EA:F7:59:8A:EB:14:B5:47
+secomscrootca1 [jdk], Aug 25, 2016, trustedCertEntry,
+
+If we write a custom java client (rest client), we can import server certificate to this "cacerts" truststore. But this is not ideal, as we don't have privilege to "cacerts" most of time.
+So, what we do is we create a new trust store for that application and import the server certificate to that truststore as we have done in this demo project.
+
 
 Two way ssl:
+=============
 client and server both authenticates each other by exchanging their certificate. Server will authenticate
 client as well,
-if a client is valid one. It will not respond to any client which is requesting for the data.
+Server will not respond to every client which is requesting for the data.
 Here client also send the certificate to server, that server validates against it server truststore.
-
 
 Demo project I have created, client access the server by passing it's own certificate to server to get authenticated.
 Samething we can do from the browser. But we have to add client keystore first to chrome browser, so browser sends
