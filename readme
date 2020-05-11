@@ -77,6 +77,13 @@ secomscrootca1 [jdk], Aug 25, 2016, trustedCertEntry,
 If we write a custom java client (rest client), we can import server certificate to this "cacerts" truststore. But this is not ideal, as we don't have privilege to "cacerts" most of time.
 So, what we do is we create a new trust store for that application and import the server certificate to that truststore as we have done in this demo project.
 
+Important :
+At times we completely trust on the server even though it's not signed by Certification authority. We have these servers in local or Dev environment.
+So if we have rest client to access these server's url. We have two options:
+1) import this certificate in client turststore, that we usually do.
+2) ignore this certificate at all. We can write code to ignore the server authentication by client. Below is the code path for that example:
+C:\Users\ravi123\IdeaProjects\springClientTwoWaySSL\src\main\java\com\rest\_1GetEmployeeDisableSSL.java
+
 
 Two way ssl:
 =============
