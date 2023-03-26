@@ -1,4 +1,14 @@
-Its two way ssl, we will create following:
+Its two way ssl, Client and Server both will encrypt the message before sending and decrypt the message once received. 
+
+Client will have :
+1. public key shared by the server to encrypt the message before sending it to server
+2. Its own private key to decrypt the  message received from the server 
+
+Server will have :
+1. public key shared by the Client to encrypt the message before sending it to Client
+2. Its own private key to decrypt the message received from the Client 
+
+we will create following:
 On Server side:
     1. create server key store
     2. Export certificate from key store for client
