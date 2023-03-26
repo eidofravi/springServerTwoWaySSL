@@ -13,26 +13,26 @@ On Server side:
     1. create server key store
     2. Export certificate from key store for client
     3. create server trust store
-    4. import client certificate to server's key store
+    4. import client certificate to server's Trust Store
     5. server configuration set up for certificates
 
 On Client side:
     1. create client key store
     2. Export certificate from key store for server
     3. create client trust store
-    4. import server certificate to client's key store
+    4. import server certificate to client's Key Store
     5. client configuration set up for certificates
 
 Details:
 cd C:\Users\ravi123\IdeaProjects\springServerTwoWaySSL\certificates
 
 On server side:
-    1. create server key store
+    1. create server key store with name raviServerkeystore.jks
        keytool -genkey -keyalg RSA -alias raviServerPrivateKey -keystore raviServerkeystore.jks
        enter keystore password - raviServerKeyStorePwd
        enter private key password - raviServerPrivateKeyPwd
 
-    2. Export certificate from key store for client
+    2. Export certificate from key store for client (name - exportedServerCertForClient.cer)
        keytool -export -alias raviServerPrivateKey -file exportedServerCertForClient.cer -keystore raviServerkeystore.jks
 
     Follow step 3 onwards, after client's step 2 is done
